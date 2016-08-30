@@ -1,1 +1,0 @@
-# Jumencia-Artificial
