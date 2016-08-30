@@ -8,8 +8,8 @@
 #include "Pedra.h"
 
 Pedra::Pedra(int posicao[], bool jogador) {
-    this->posicao[0] = posicao[0];
-    this->posicao[1] = posicao[1];
+    this->posicao1 = posicao1;
+    this->posicao2 = posicao2;
     this->jogador = jogador;
 }
 

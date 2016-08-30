@@ -10,17 +10,16 @@
 #define JOGADOR_CPP
 
 #include "Jogador.h"
-#include "stdlib.h"
+
 
 Jogador::Jogador() {
     jogador1 = true;
     tela = new Tela();
-    estadoDeJogo = JOGANDO;
     leitura();
 }
 
 void Jogador::leitura() {
-    while (estadoDeJogo == JOGANDO) {
+    while (1) {
         tela->printTabul(campo);
         int choice[2];
         scanf("%i%i", &choice[0], &choice[1]);
@@ -32,19 +31,17 @@ void Jogador::leitura() {
             }
         }
     }
-
-    printf("O vencedor é o jogador %i", jogador1);
 }
 
 bool Jogador::escrita(int choice[]) {
-    system("clear");
     if (campo[choice[0]][choice[1]] == 0) {
         if (jogador1) {
+            jogadas1.push_back(new Pedra(choice, jogador1));
             campo[choice[0]][choice[1]] = 1;
         } else {
+            jogadas2.push_back(new Pedra(choice, jogador1));
             campo[choice[0]][choice[1]] = 2;
         }
-        jogadas.push_back(new Pedra(choice, jogador1));
         Pontuacao::somarPontuacao(campo);
         return true;
     }

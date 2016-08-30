@@ -14,7 +14,8 @@ public:
     Pedra(const Pedra& orig);
     virtual ~Pedra();
 private:
-    int posicao[2];
+    int posicao1;
+    int posicao2;
     bool jogador;
 };
 

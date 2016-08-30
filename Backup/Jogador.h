@@ -15,7 +15,6 @@
 #include "Pedra.h"
 #include "Pontuacao.h"
 
-typedef enum {JOGANDO, TERMINADO} estado;
 
 class Jogador {
 public:
@@ -24,17 +23,17 @@ public:
     virtual ~Jogador();
     void leitura();
     bool escrita(int choice[]);
-    
 private:
     //Matriz que guarda estado atual do campo: 
     int campo[15][15];
     //lista de jogadas 1:
-    std::list<Pedra*> jogadas;
+    std::list<Pedra*> jogadas1;
+    //lista de jogadas 2:
+    std::list<Pedra*> jogadas2;
     //Variável que define quem é a vez:    
     bool jogador1;
     //Entidade da interface gráfica
     Tela* tela;
-    estado estadoDeJogo;
 };
 
 #endif	/* JOGADOR_H */

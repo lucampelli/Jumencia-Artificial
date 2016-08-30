@@ -12,275 +12,99 @@
 #define WIN 100000
 #define LOSE -100000
 
+///std::list<Pedra*>::iterator it;
+    //for( it = lista.begin(); it != lista.end(); it++){}
+
 Pontuacao::Pontuacao() {
 }
 
-int Pontuacao::somarPontuacao(int tabuleiro[15][15]) {
+int Pontuacao::somarH(int tabuleiro[15][15]){
+    printf("Somando as horizontais\n");
+
     int espacosD = 0;
     int espacosA = 0;
     int pontos1 = 0;
     int pontos2 = 0;
     int soma1 = 0;
     int soma2 = 0;
-    bool start = true;
     int lastSymbol = 0;
 
-    //horizontal
-    printf("Checando Horizontais");
-    for (int i = 0; i < 15; i++) {
-        for (int j = 0; j < 15; j++) {
-            if (tabuleiro[i][j] == 0) {
-                if (start) {
-                    espacosA++;
-                } else {
-                    espacosD++;
-                }
-                lastSymbol = 0;
-            }
-            if (tabuleiro[i][j] == 1) {
-                start = false;
-                if (pontos2 > 0) {
-                    soma2 = (pontos2 + espacosD + espacosA) * 50;
-                    espacosA = espacosD;
-                    espacosD = 0;
-                    pontos2 = 0;
-                }
-                pontos1++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 1;
-            } else if (tabuleiro[i][j] == 2) {
-                start = false;
-                if (pontos1 > 0) {
-                    soma1 = (pontos1 + espacosD + espacosA) * 50;
-                    pontos1 = 0;
-                    espacosA = espacosD;
-                    espacosD = 0;
-                }
-                pontos2++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 2;
-            }
-        }
-        espacosD = 0;
-        espacosA = 0;
-        pontos1 = 0;
-        pontos2 = 0;
-        soma1 = 0;
-        soma2 = 0;
-        start = true;
+    for(int i = 0; i < 15; i++){
+	for(int j = 0; j < 15; j++){
+	    if(tabuleiro[i][j] == 0){
+		if(pontos1 == 0 && pontos2 == 0){
+		    espacosA++;
+		} else {
+		    espacosD++;
+		}
+		lastSymbol = 0;
+	    }
+	    if(tabuleiro[i][j] == 1){
+		pontos1++;
+		if(pontos2 > 0){
+			soma2 += heuristica(espacosA, pontos2, espacosD);
+			espacosA = espacosD;
+			espacosD = 0;
+		}
+		if(lastSymbol == 0){
+			espacosA += espacosD;
+			espacosD = 0;
+		}
+		lastSymbol = 1;
+	    }
+	    if(tabuleiro[i][j] == 2){
+		pontos2++;
+		if(pontos1 > 0){
+			soma1 += heuristica(espacosA, pontos1, espacosD);
+			espacosA = espacosD;
+			espacosD = 0;
+		}
+		if(lastSymbol == 0){
+			espacosA += espacosD;
+			espacosD = 0;
+		}
+		lastSymbol = 2;
+	    }
+	}
+	if(pontos1 > 0){
+		soma1 += heuristica(espacosA, pontos1, espacosD);
+	}
+	if(pontos2 > 0){
+		soma1 += heuristica(espacosA, pontos2, espacosD);
+	}
+	espacosD = 0;
+    	espacosA = 0;
+    	pontos1 = 0;
+    	pontos2 = 0;
+    	soma1 = 0;
+    	soma2 = 0;
+    	lastSymbol = 0;
     }
-
-    //vertical
-    printf("Checando Verticais");
-    for (int j = 0; j < 15; j++) {
-        for (int i = 0; i < 15; i++) {
-            if (tabuleiro[i][j] == 0) {
-                if (start) {
-                    espacosA++;
-                } else {
-                    espacosD++;
-                }
-                lastSymbol = 0;
-            }
-            if (tabuleiro[i][j] == 1) {
-                start = false;
-                
-                if (pontos2 > 0) {
-                    soma2 = heuristicaPontos(espacosA,pontos2,espacosD);
-                    espacosA = espacosD;
-                    espacosD = 0;
-                    pontos2 = 0;
-                }
-                pontos1++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 1;
-                
-            } else if (tabuleiro[i][j] == 2) {
-                start = false;
-                
-                if (pontos1 > 0) {
-                    soma1 = heuristicaPontos(espacosA,pontos1,espacosD);
-                    pontos1 = 0;
-                    espacosA = espacosD;
-                    espacosD = 0;
-                }
-                pontos2++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 2;
-            }
-        }
-        
-        espacosD = 0;
-        espacosA = 0;
-        pontos1 = 0;
-        pontos2 = 0;
-        soma1 = 0;
-        soma2 = 0;
-        start = true;
-    }
-
-    //diagonal secundaria metade superior
-    printf("Checando Diagonal Secundaria");
-    for (int i = 0; i < 15 ; i++) {
-        for (int j = 0; j < 15; j++) {
-            
-        }
-        espacosD = 0;
-        espacosA = 0;
-        pontos1 = 0;
-        pontos2 = 0;
-        soma1 = 0;
-        soma2 = 0;
-        start = true;
-    }
-    
-    //diagonal secundaria metade inferior
-    for (int i = 0; i < 15 ; i++) {
-        for (int j = 0; j < 15; j++) {
-            
-        }
-        espacosD = 0;
-        espacosA = 0;
-        pontos1 = 0;
-        pontos2 = 0;
-        soma1 = 0;
-        soma2 = 0;
-        start = true;
-    }
-
-    int limit = 15;
-    //diagonal principal metade superior
-    printf("Checando Diagonal Principal");
-    for (int i = 0; i <= 10; i++) {
-        for (int j = 0, k = i;k < limit; j++,k++) {
-            if (tabuleiro[i][j] == 0) {
-                if (start) {
-                    espacosA++;
-                } else {
-                    espacosD++;
-                }
-                lastSymbol = 0;
-            }
-            if (tabuleiro[i][j] == 1) {
-                start = false;
-                
-                if (pontos2 > 0) {
-                    soma2 = heuristicaPontos(espacosA,pontos2,espacosD);
-                    espacosA = espacosD;
-                    espacosD = 0;
-                    pontos2 = 0;
-                }
-                pontos1++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 1;
-                
-            } else if (tabuleiro[i][j] == 2) {
-                start = false;
-                
-                if (pontos1 > 0) {
-                    soma1 = heuristicaPontos(espacosA,pontos1,espacosD);
-                    pontos1 = 0;
-                    espacosA = espacosD;
-                    espacosD = 0;
-                }
-                pontos2++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 2;
-            }
-        }
-        limit --;
-        espacosD = 0;
-        espacosA = 0;
-        pontos1 = 0;
-        pontos2 = 0;
-        soma1 = 0;
-        soma2 = 0;
-        start = true;
-    }
-    //diagonal principal metade inferior
-    limit = 14;
-    for (int i = 1; i <= 10; i++) {
-        for (int k = 0, j = i;k < limit; j++,k++) {
-            if (tabuleiro[i][j] == 0) {
-                if (start) {
-                    espacosA++;
-                } else {
-                    espacosD++;
-                }
-                lastSymbol = 0;
-            }
-            if (tabuleiro[i][j] == 1) {
-                start = false;
-                
-                if (pontos2 > 0) {
-                    soma2 = heuristicaPontos(espacosA,pontos2,espacosD);
-                    espacosA = espacosD;
-                    espacosD = 0;
-                    pontos2 = 0;
-                }
-                pontos1++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 1;
-                
-            } else if (tabuleiro[i][j] == 2) {
-                start = false;
-                
-                if (pontos1 > 0) {
-                    soma1 = heuristicaPontos(espacosA,pontos1,espacosD);
-                    pontos1 = 0;
-                    espacosA = espacosD;
-                    espacosD = 0;
-                }
-                pontos2++;
-                if (lastSymbol == 0) {
-                    espacosA += espacosD;
-                    espacosD = 0;
-                }
-                lastSymbol = 2;
-            }
-        }
-        limit --;
-        espacosD = 0;
-        espacosA = 0;
-        pontos1 = 0;
-        pontos2 = 0;
-        soma1 = 0;
-        soma2 = 0;
-        start = true;
-    }
-    int result[] ={soma1, soma2};  
-    printf("%i   %i \n", soma1, soma2);
 }
 
-int Pontuacao::heuristicaPontos(int espacosA, int pontos, int espacosD){
+int Pontuacao::somarV(int tabuleiro[15][15]){
+    printf("Somando as verticais\n");
+}
+
+int Pontuacao::somarDP(int tabuleiro[15][15]) {
+    printf("Somando a diagonal principal\n");
+}
+
+int Pontuacao::somarDS(int tabuleiro[15][15]) {
+    printf("Somando a diagonal secundaria\n");
+}
+
+int Pontuacao::somarPontuacao(int tabuleiro[15][15]) {
+	return somarH(tabuleiro);
+}
+
+int Pontuacao::heuristica(int espacosA, int pontos, int espacosD){
     //Aqui vou avaliar a situacao da ultima carreira de pedras e dar-lhes uma pontuacao
     //switchzao
     printf("Pontos: %i\n", pontos);
     printf("Espacos: %i\n", espacosA + espacosD);
     
     if(pontos == 5){
-        printf("%i", WIN);
         return WIN;
     }
     else {
