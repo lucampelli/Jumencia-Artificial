@@ -160,9 +160,63 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
     int soma1 = 0;
     int soma2 = 0;
     int lastSymbol = 0;
-    
+    //Parte superior da diagonal:
     for (int i = 0, j = 0, r = 0; r < 11; r++, j = r, i = 0) {//r<11 devido a otimização de não precisar ver os cantos que não possam mais formar vitória.
-        for (; j <= (15 - r);i++, j++) {
+        for (; i < (15 - r); i++, j++) {
+            if (tabuleiro[i][j] == 0) {
+                if (pontos1 == 0 && pontos2 == 0) {
+                    espacosA++;
+                } else {
+                    espacosD++;
+                }
+                lastSymbol = 0;
+            }
+            if (tabuleiro[i][j] == 1) {
+                pontos1++;
+                if (pontos2 > 0) {
+                    soma2 += heuristica(espacosA, pontos2, espacosD);
+                    pontos2 = 0;
+                    espacosA = espacosD;
+                    espacosD = 0;
+                }
+                if (lastSymbol == 0) {
+                    espacosA += espacosD;
+                    espacosD = 0;
+                }
+                lastSymbol = 1;
+            }
+            if (tabuleiro[i][j] == 2) {
+                pontos2++;
+                if (pontos1 > 0) {
+                    soma1 += heuristica(espacosA, pontos1, espacosD);
+                    pontos1 = 0;
+                    espacosA = espacosD;
+                    espacosD = 0;
+                }
+                if (lastSymbol == 0) {
+                    espacosA += espacosD;
+                    espacosD = 0;
+                }
+                lastSymbol = 2;
+            }
+        }
+        if (pontos1 > 0) {
+            soma1 += heuristica(espacosA, pontos1, espacosD);
+        }
+        if (pontos2 > 0) {
+            soma1 += heuristica(espacosA, pontos2, espacosD);
+        }
+        espacosD = 0;
+        espacosA = 0;
+        pontos1 = 0;
+        pontos2 = 0;
+        soma1 = 0;
+        soma2 = 0;
+        lastSymbol = 0;
+    }
+    //Parte inferior da diagonal:
+    for (int i = 1, j = 0, r = 1; r < 11; r++, i = r, j = 0) {//r<11 devido a otimização de não precisar ver os cantos que não possam mais formar vitória.
+        for (; i <= (15 - r); j++, i++) {
             if (tabuleiro[i][j] == 0) {
                 if (pontos1 == 0 && pontos2 == 0) {
                     espacosA++;
@@ -218,12 +272,128 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
 
 int Pontuacao::somarDS(int tabuleiro[15][15]) {
     printf("Somando a diagonal secundaria\n");
-    
+
+    int espacosD = 0;
+    int espacosA = 0;
+    int pontos1 = 0;
+    int pontos2 = 0;
+    int soma1 = 0;
+    int soma2 = 0;
+    int lastSymbol = 0;
+    //Parte superior da diagonal:
+    printf("Somando a diagonal secundaria superior\n");
+    for (int i = 0, j = 14, r = 0; r < 11; r++, j = 14 - r, i = 0) {//r<11 devido a otimização de não precisar ver os cantos que não possam mais formar vitória.
+        for (; j >= 0; i++, j--) {
+            if (tabuleiro[i][j] == 0) {
+                if (pontos1 == 0 && pontos2 == 0) {
+                    espacosA++;
+                } else {
+                    espacosD++;
+                }
+                lastSymbol = 0;
+            }
+            if (tabuleiro[i][j] == 1) {
+                pontos1++;
+                if (pontos2 > 0) {
+                    soma2 += heuristica(espacosA, pontos2, espacosD);
+                    pontos2 = 0;
+                    espacosA = espacosD;
+                    espacosD = 0;
+                }
+                if (lastSymbol == 0) {
+                    espacosA += espacosD;
+                    espacosD = 0;
+                }
+                lastSymbol = 1;
+            }
+            if (tabuleiro[i][j] == 2) {
+                pontos2++;
+                if (pontos1 > 0) {
+                    soma1 += heuristica(espacosA, pontos1, espacosD);
+                    pontos1 = 0;
+                    espacosA = espacosD;
+                    espacosD = 0;
+                }
+                if (lastSymbol == 0) {
+                    espacosA += espacosD;
+                    espacosD = 0;
+                }
+                lastSymbol = 2;
+            }
+        }
+        if (pontos1 > 0) {
+            soma1 += heuristica(espacosA, pontos1, espacosD);
+        }
+        if (pontos2 > 0) {
+            soma1 += heuristica(espacosA, pontos2, espacosD);
+        }
+        espacosD = 0;
+        espacosA = 0;
+        pontos1 = 0;
+        pontos2 = 0;
+        soma1 = 0;
+        soma2 = 0;
+        lastSymbol = 0;
+    }
+    //Parte inferior da diagonal:
+    for (int i = 1, j = 14, r = 1; r < 11; r++, i = r, j = 14) {//r<11 devido a otimização de não precisar ver os cantos que não possam mais formar vitória.
+        for (; i < 15; i++, j--) {
+            if (tabuleiro[i][j] == 0) {
+                if (pontos1 == 0 && pontos2 == 0) {
+                    espacosA++;
+                } else {
+                    espacosD++;
+                }
+                lastSymbol = 0;
+            }
+            if (tabuleiro[i][j] == 1) {
+                pontos1++;
+                if (pontos2 > 0) {
+                    soma2 += heuristica(espacosA, pontos2, espacosD);
+                    pontos2 = 0;
+                    espacosA = espacosD;
+                    espacosD = 0;
+                }
+                if (lastSymbol == 0) {
+                    espacosA += espacosD;
+                    espacosD = 0;
+                }
+                lastSymbol = 1;
+            }
+            if (tabuleiro[i][j] == 2) {
+                pontos2++;
+                if (pontos1 > 0) {
+                    soma1 += heuristica(espacosA, pontos1, espacosD);
+                    pontos1 = 0;
+                    espacosA = espacosD;
+                    espacosD = 0;
+                }
+                if (lastSymbol == 0) {
+                    espacosA += espacosD;
+                    espacosD = 0;
+                }
+                lastSymbol = 2;
+            }
+        }
+        if (pontos1 > 0) {
+            soma1 += heuristica(espacosA, pontos1, espacosD);
+        }
+        if (pontos2 > 0) {
+            soma1 += heuristica(espacosA, pontos2, espacosD);
+        }
+        espacosD = 0;
+        espacosA = 0;
+        pontos1 = 0;
+        pontos2 = 0;
+        soma1 = 0;
+        soma2 = 0;
+        lastSymbol = 0;
+    }
 }
 
 int Pontuacao::somarPontuacao(int tabuleiro[15][15]) {
 
-    return somarH(tabuleiro) + somarV(tabuleiro) + somarDP(tabuleiro);
+    return somarH(tabuleiro) + somarV(tabuleiro) + somarDP(tabuleiro) + somarDS(tabuleiro);
 }
 
 int Pontuacao::heuristica(int espacosA, int pontos, int espacosD) {
@@ -233,6 +403,7 @@ int Pontuacao::heuristica(int espacosA, int pontos, int espacosD) {
     printf("Espacos: %i\n", espacosA + espacosD);
 
     if (pontos == 5) {
+        printf("WIN");
         return WIN;
     } else {
         return 0;
