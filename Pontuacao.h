@@ -16,7 +16,8 @@ public:
     static int somarV(int tabuleiro[15][15]);
     static int somarDP(int tabuleiro[15][15]);
     static int somarDS(int tabuleiro[15][15]);
-    static int heuristica(int espacosA, int pontos, int espacosD);
+    static int heuristica(int espacosA, int pontos, int espacosD, int consec);
+    static int heuristicaS(int espacosA, int pontos, int espacosD, int consec, int seq1[], int seq2[]);
     Pontuacao(const Pontuacao& orig);
     virtual ~Pontuacao();
 private:
