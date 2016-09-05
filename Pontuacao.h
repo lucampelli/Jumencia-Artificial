@@ -12,15 +12,19 @@ class Pontuacao {
 public:
     Pontuacao();
     static int somarPontuacao(int tabuleiro[15][15]);
+    Pontuacao(const Pontuacao& orig);
+    virtual ~Pontuacao();
+private:
+
     static int somarH(int tabuleiro[15][15]);
     static int somarV(int tabuleiro[15][15]);
     static int somarDP(int tabuleiro[15][15]);
     static int somarDS(int tabuleiro[15][15]);
-    static int heuristica(int espacosA, int pontos, int espacosD, int consec);
-    static int heuristicaS(int espacosA, int pontos, int espacosD, int consec, int seq1[], int seq2[]);
-    Pontuacao(const Pontuacao& orig);
-    virtual ~Pontuacao();
-private:
+    static int algoritmo(int tabuleiro[15][15]);
+    static int heuristica(int espacosA, int pontos, int espacosD, int consec, int seq1[], int seq2[], int lastSymbol);
+    static void printSeqs(int seq1[4], int seq2[4]);
+
+
     int espacosD;
     int espacosA;
     int pontos1;
