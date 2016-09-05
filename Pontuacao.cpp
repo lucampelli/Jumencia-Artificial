@@ -621,8 +621,11 @@ int Pontuacao::heuristica(int espacosA, int pontos, int espacosD, int consec, in
     //printf("Consecutivos: %i\n", consec);
 
     if(pontos + espacosD + espacosA >= 5){
-	if(consec == 5){
-	    printf("Win");
+	if(seq1[3] != 0){
+	    printf("Jogador 1 WIN\n");
+	} else 
+	if(seq2[3] != 0){
+	    printf("Jogador 2 WIN\n");
 	}
     } else {
 	if(lastSymbol == 1){
