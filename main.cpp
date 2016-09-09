@@ -13,7 +13,7 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    new Jogador();
+    Jogador::getInstance();
     return 0;
 }
 

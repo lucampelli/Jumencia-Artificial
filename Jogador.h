@@ -24,6 +24,15 @@ public:
     virtual ~Jogador();
     void leitura();
     bool escrita(int choice[]);
+	static Jogador* getInstance(){
+		static Jogador* _jogador;
+		if(_jogador == NULL){
+			_jogador = new Jogador();
+		}
+		return _jogador;
+	}
+	int* getCampo(){ return &campo[0][0];}
+	
     
 private:
     //Matriz que guarda estado atual do campo: 
