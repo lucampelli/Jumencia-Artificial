@@ -21,9 +21,9 @@ private:
     static int somarDP(int tabuleiro[15][15]);
     static int somarDS(int tabuleiro[15][15]);
     static int algoritmo(int tabuleiro[15][15]);
-    static int heuristica(int espacosA, int pontos, int espacosD, int consec, int seq1[], int seq2[], int lastSymbol);
-    static void printSeqs(int seq1[4], int seq2[4]);
-
+    static int somatorio(int espacosA, int pontos, int espacosD, int consec, int seq1[5], int seq2[5], int lastSymbol);
+    static void printSeqs(int seq1[5], int seq2[5]);
+    static int heuristica(int seq1[], int seq2[]);
 
     int espacosD;
     int espacosA;
