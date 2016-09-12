@@ -7,7 +7,12 @@
 class Minimax{
 
 public:
-	static Nodo* minimax(Nodo* raiz, int profundidade, bool minoumax, int alpha, int beta);
+	Minimax();
+
+public:
+	static int minimax(Nodo* raiz, int profundidade, bool max, int alpha, int beta);
+	static int min(int i, int j);
+	static int max(int i, int j);
 
 };
 #endif
