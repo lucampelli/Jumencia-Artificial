@@ -3,12 +3,9 @@
 
 #include "stdlib.h"
 #include <list>
-#include "Pontuacao.h"
+#include "TabuleiroVirtual.h"
 
 class Nodo{
-
-public:
-	static int tabuleiroVirtual[15][15];
 
 private:
     Nodo* parent;
@@ -20,7 +17,7 @@ private:
 public:
 
  Nodo(int jogada[2], Nodo* parent, int player): value(0){
-
+	
     parent = parent;
 	jogada[0] = jogada[0];
 	jogada[1] = jogada[1];
@@ -51,7 +48,8 @@ int getValue(){
 }
 
 int calcularHeuristica(){
-	return Pontuacao::somarPontuacao(tabuleiroVirtual);
+	TabuleiroVirtual* tabuleiro = TabuleiroVirtual::getInstance();
+	return tabuleiro->heuristica();
 }
 
 Nodo* getParent(){
@@ -75,11 +73,15 @@ Nodo* operator >= (Nodo* nodo){
 }
 
 void play(int jogada[2], int jogador){
+
+	TabuleiroVirtual* tabuleiro = TabuleiroVirtual::getInstance();
+
 	if(jogada[0] < 0 || jogada[1] < 0){
 		return;
 	}
-	if(tabuleiroVirtual[jogada[0]][jogada[1]] == 0){
-		tabuleiroVirtual[jogada[0]][jogada[1]] = jogador;
+	
+	if(tabuleiro->check(jogada)){
+		tabuleiro->insert(jogada,jogador);
 	}
 	
 }

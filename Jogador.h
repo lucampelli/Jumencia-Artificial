@@ -32,6 +32,7 @@ public:
 		return _jogador;
 	}
 	int* getCampo(){ return &campo[0][0];}
+	int getPlaceInCampo(int i, int j){return campo[i][j];}
 	
     
 private:
