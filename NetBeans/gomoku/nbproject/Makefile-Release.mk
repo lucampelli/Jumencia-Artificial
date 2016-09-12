@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/43898991/Jogador.o \
+	${OBJECTDIR}/_ext/43898991/Minimax.o \
 	${OBJECTDIR}/_ext/43898991/Pedra.o \
 	${OBJECTDIR}/_ext/43898991/Pontuacao.o \
 	${OBJECTDIR}/_ext/43898991/Tela.o \
@@ -70,6 +71,11 @@ ${OBJECTDIR}/_ext/43898991/Jogador.o: ../../Jogador.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/43898991
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/43898991/Jogador.o ../../Jogador.cpp
+
+${OBJECTDIR}/_ext/43898991/Minimax.o: ../../Minimax.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/43898991
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/43898991/Minimax.o ../../Minimax.cpp
 
 ${OBJECTDIR}/_ext/43898991/Pedra.o: ../../Pedra.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/43898991

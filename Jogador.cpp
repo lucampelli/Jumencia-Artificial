@@ -45,7 +45,8 @@ bool Jogador::escrita(int choice[]) {
             campo[choice[0]][choice[1]] = 2;
         }
         jogadas.push_back(new Pedra(choice, jogador1));
-        Pontuacao::somarPontuacao(campo);
+        int pontos = Pontuacao::somarPontuacao(campo);
+        printf("Pontos: %i", pontos);
         return true;
     }
     return false;
