@@ -1,41 +1,51 @@
-#define INF 10000000
-#define MINF -10000000
-
 
 #ifndef MINIMAX_CPP
 #define MINIMAX_CPP
 
 #include "Minimax.h"
 #include "Pontuacao.h"
+#include "stdlib.h"
+#include "MyLista.h"
 
-int Minimax::minimax(Nodo* raiz, int prof, bool isMax = true, int a = -INF, int b = INF){
+int Minimax::minimax(Nodo* raiz, int prof, bool isMax, int a, int b){
 
-	//gerar filhos dos nodos	
+	TabuleiroVirtual* tabuleiro = TabuleiroVirtual::getInstance();
+	tabuleiro->insert(raiz->getJogada(),raiz->getPlayer());
 
 	if(prof == 0 /*&&raiz->isFinal()*/){
-		
-		return raiz->calcularHeuristica();
+		printf("aqui deu\n");
+		int pontuacao = raiz->calcularHeuristica();
+		tabuleiro->remove(raiz->getJogada());
+		printf("Pontuacao tabuleiro atual: %i\n", pontuacao);
+		return pontuacao;
 	}
+	
+	printf("Profundidade do algoritmo: %i\n", prof);
+	raiz->gerarFilhos();
 
 	if(isMax){
 		int v = MINF;
-		for(std::list<Nodo*>::iterator it = raiz->getFilhos().begin(); it!=raiz->getFilhos().end(); it++){
-			v = max(v,minimax(*it, prof -1, false, a, b));
+		for(unsigned int i = 0; i < raiz->getFilhos().getSize(); i++){
+			Nodo* it = raiz->getFilhos().getNodeByPos(i);
+			v = max(v,minimax(it, prof -1, false, a, b));
 			a = max(a,v);
 			if(b <= a){
 				break;
 			}
 		}
+		tabuleiro->remove(raiz->getJogada());
 		return v;
 	} else {
 		int v = INF;
-		for(std::list<Nodo*>::iterator it = raiz->getFilhos().begin(); it!=raiz->getFilhos().end(); it++){
-			v = min(v,minimax(*it, prof -1, true, a, b));
+		for(int i = 0; i < raiz->getFilhos().getSize(); i++){
+			Nodo* it = raiz->getFilhos().getNodeByPos(i);
+			v = min(v,minimax(it, prof -1, true, a, b));
 			b = min(b,v);
 			if(b <= a){
 				break;
 			}
 		}
+		tabuleiro->remove(raiz->getJogada());
 		return v;
 	}
 }

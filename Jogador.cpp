@@ -11,6 +11,8 @@
 
 #include "Jogador.h"
 #include "stdlib.h"
+#include "Nodo.h"
+#include "Minimax.h"
 
 Jogador::Jogador() {
     jogador1 = true;
@@ -37,16 +39,20 @@ void Jogador::leitura() {
 }
 
 bool Jogador::escrita(int choice[]) {
-    system("clear");
+    //system("clear");
+	printf("Campo:");
     if (campo[choice[0]][choice[1]] == 0) {
         if (jogador1) {
             campo[choice[0]][choice[1]] = 1;
         } else {
             campo[choice[0]][choice[1]] = 2;
         }
-        jogadas.push_back(new Pedra(choice, jogador1));
-        int pontos = Pontuacao::somarPontuacao(campo);
-        printf("Pontos: %i", pontos);
+        //jogadas.push_back(new Pedra(choice, jogador1));
+		Nodo* nodo = new Nodo(choice, NULL, jogador1);
+		int heuristica = Minimax::minimax(nodo,2);
+		printf("Heuristica: %i", heuristica);
+        //int pontos = Pontuacao::somarPontuacao(campo);
+        //printf("Pontos: %i", pontos);
         return true;
     }
     return false;

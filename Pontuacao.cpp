@@ -120,7 +120,7 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    printSeqs(seq1, seq2);
+    //printSeqs(seq1, seq2);
     return heuristica(seq1, seq2);
 }
 
@@ -224,7 +224,7 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    printSeqs(seq1, seq2);
+    //printSeqs(seq1, seq2);
     return heuristica(seq1, seq2);
 }
 
@@ -414,7 +414,7 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    printSeqs(seq1, seq2);
+    //printSeqs(seq1, seq2);
     return heuristica(seq1, seq2);
 }
 
@@ -604,7 +604,7 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    printSeqs(seq1, seq2);
+    //printSeqs(seq1, seq2);
     return heuristica(seq1, seq2);
 }
 
@@ -647,7 +647,7 @@ int Pontuacao::somatorio(int espacosA, int pontos, int espacosD, int consec, int
 }
 
 int Pontuacao::heuristica(int seq1[5], int seq2[5]) {
-    printf("Heuristica");
+    printf("Heuristica\n");
     int p1 = 0;
     int p2 = 0;
     p1 += seq1 [0] * 20;

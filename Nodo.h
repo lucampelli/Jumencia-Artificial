@@ -4,43 +4,66 @@
 #include "stdlib.h"
 #include <list>
 #include "TabuleiroVirtual.h"
+#include "MyLista.h"
 
 class Nodo{
 
 private:
     Nodo* parent;
-    std::list<Nodo*> filhos;
+    MyLista<Nodo*> filhos;
     int value;
     int jogada[2];
-	int player;
+	bool player1;
 
 public:
 
- Nodo(int jogada[2], Nodo* parent, int player): value(0){
+ Nodo(int jogadas[2], Nodo* parente, bool player): value(0){
+	filhos = MyLista<Nodo*>();
+    parent = parente;
+	jogada[0] = jogadas[0];
+	jogada[1] = jogadas[1];
+	player1 = player;
+
+}
+
+void setValue(int newValue){
+	value = newValue;
+}
+
+void gerarFilhos(){
+	TabuleiroVirtual* tabuleiro = TabuleiroVirtual::getInstance();
+	for(int i = 0; i < 15; i++){
+		for(int j = 0; j < 15; j++){
+			if(tabuleiro->check(i,j)){
+				addFilho(i,j);
+			}
+		}
+	}
+}
+
+void addFilho(int jogadas[2]){
+	Nodo* nodo = new Nodo(jogadas, this,!player1);
+	filhos.add(nodo);
+}
+
+void addFilho(int i, int j){
 	
-    parent = parent;
-	jogada[0] = jogada[0];
-	jogada[1] = jogada[1];
-	player = player;
-	play(jogada, player);
+	int jogadas[2] = {i,j};
 
-}
-
-void setValue(int value){
-	value = value;
-}
-
-void addFilho(int jogada[2]){
-	if(player == 1){
-		filhos.push_back(new Nodo(jogada, this,2));
-	}
-	if(player == 2){
-		filhos.push_back(new Nodo(jogada, this,1));
-	}
+	Nodo* nodo = new Nodo(jogadas, this,!player1);
+	filhos.add(nodo);
 }
 
 int* getJogada(){
 	return jogada;
+}
+
+int getPlayer(){
+	if(player1){
+		return 1;
+	} else {
+		return 2;
+	}
 }
 
 int getValue(){
@@ -60,31 +83,16 @@ void setParent(Nodo* parent){
 	parent = parent;
 }
 
-std::list<Nodo*> getFilhos(){
+MyLista<Nodo*> getFilhos(){
 	return filhos;
 }
 
-Nodo* operator >= (Nodo* nodo){
-	if(value >= nodo->getValue()){
-		return this;
-	} else {
-		return nodo;
-	}
+bool operator >= (Nodo* nodo){
+	return(value >= nodo->getValue());
 }
 
-void play(int jogada[2], int jogador){
-
-	TabuleiroVirtual* tabuleiro = TabuleiroVirtual::getInstance();
-
-	if(jogada[0] < 0 || jogada[1] < 0){
-		return;
-	}
-	
-	if(tabuleiro->check(jogada)){
-		tabuleiro->insert(jogada,jogador);
-	}
-	
+bool operator == (Nodo* nodo){
+	return(jogada[0] == nodo->getJogada()[0] && jogada[1] == nodo->getJogada()[1]);
 }
-
 };
 #endif
