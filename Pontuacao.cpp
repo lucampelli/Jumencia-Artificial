@@ -14,14 +14,18 @@
 #define WIN 100000
 #define LOSE -100000
 
-///std::list<Pedra*>::iterator it;
-//for( it = lista.begin(); it != lista.end(); it++){}
+int p1;
+
+int p2;
 
 Pontuacao::Pontuacao() {
 }
 
 int Pontuacao::somarH(int tabuleiro[15][15]) {
     printf("Somando as horizontais\n");
+    
+    p1 = 0;
+    p2 = 0;
 
     int seq1[] = {0, 0, 0, 0, 0}; //{duplas,triplas,quadras,quintas}
     int seq2[] = {0, 0, 0, 0, 0};
@@ -61,7 +65,7 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 1) {
                 pontos1++;
                 if (pontos2 > 0) {
-                    soma2 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
                     pontos2 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -84,7 +88,7 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 2) {
                 pontos2++;
                 if (pontos1 > 0) {
-                    soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
                     pontos1 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -106,10 +110,10 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
             }
         }
         if (pontos1 > 0) {
-            soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+            soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
         }
         if (pontos2 > 0) {
-            soma1 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+            soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
         }
         espacosD = 0;
         espacosA = 0;
@@ -121,12 +125,15 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
         consec = 0;
     }
     //printSeqs(seq1, seq2);
-    return heuristica(seq1, seq2);
+    return p1 - p2;
 }
 
 int Pontuacao::somarV(int tabuleiro[15][15]) {
     printf("Somando as verticais\n");
-
+    
+    p1 = 0;
+    p2 = 0;
+    
     int seq1[] = {0, 0, 0, 0, 0}; //{duplas,triplas,quadras,quintas}
     int seq2[] = {0, 0, 0, 0, 0};
     int consec = 0;
@@ -165,7 +172,7 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 1) {
                 pontos1++;
                 if (pontos2 > 0) {
-                    soma2 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
                     pontos2 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -188,7 +195,7 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 2) {
                 pontos2++;
                 if (pontos1 > 0) {
-                    soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
                     pontos1 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -210,10 +217,10 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
             }
         }
         if (pontos1 > 0) {
-            soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+            soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
         }
         if (pontos2 > 0) {
-            soma1 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+            soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
         }
         espacosD = 0;
         espacosA = 0;
@@ -225,12 +232,14 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
         consec = 0;
     }
     //printSeqs(seq1, seq2);
-    return heuristica(seq1, seq2);
+    return p1 - p2;
 }
 
 int Pontuacao::somarDP(int tabuleiro[15][15]) {
     printf("Somando a diagonal principal\n");
-
+    p1 = 0;
+    p2 = 0;
+    
     int seq1[] = {0, 0, 0, 0, 0}; //{duplas,triplas,quadras,quintas}
     int seq2[] = {0, 0, 0, 0, 0};
     int consec = 0;
@@ -269,7 +278,7 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 1) {
                 pontos1++;
                 if (pontos2 > 0) {
-                    soma2 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
                     pontos2 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -292,7 +301,7 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 2) {
                 pontos2++;
                 if (pontos1 > 0) {
-                    soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
                     pontos1 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -314,10 +323,10 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
             }
         }
         if (pontos1 > 0) {
-            soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+            soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
         }
         if (pontos2 > 0) {
-            soma1 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+            soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
         }
         espacosD = 0;
         espacosA = 0;
@@ -355,7 +364,7 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 1) {
                 pontos1++;
                 if (pontos2 > 0) {
-                    soma2 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
                     pontos2 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -378,7 +387,7 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 2) {
                 pontos2++;
                 if (pontos1 > 0) {
-                    soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
                     pontos1 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -400,10 +409,10 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
             }
         }
         if (pontos1 > 0) {
-            soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+            soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
         }
         if (pontos2 > 0) {
-            soma1 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+            soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
         }
         espacosD = 0;
         espacosA = 0;
@@ -415,12 +424,14 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
         consec = 0;
     }
     //printSeqs(seq1, seq2);
-    return heuristica(seq1, seq2);
+    return p1 - p2;
 }
 
 int Pontuacao::somarDS(int tabuleiro[15][15]) {
     printf("Somando a diagonal secundaria\n");
-
+    p1 = 0;
+    p2 = 0;
+    
     int seq1[] = {0, 0, 0, 0, 0}; //{duplas,triplas,quadras,quintas}
     int seq2[] = {0, 0, 0, 0, 0};
     int consec = 0;
@@ -459,7 +470,7 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 1) {
                 pontos1++;
                 if (pontos2 > 0) {
-                    soma2 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
                     pontos2 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -482,7 +493,7 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 2) {
                 pontos2++;
                 if (pontos1 > 0) {
-                    soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
                     pontos1 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -504,10 +515,10 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
             }
         }
         if (pontos1 > 0) {
-            soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+            soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
         }
         if (pontos2 > 0) {
-            soma1 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+            soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
         }
         espacosD = 0;
         espacosA = 0;
@@ -545,7 +556,7 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 1) {
                 pontos1++;
                 if (pontos2 > 0) {
-                    soma2 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
                     pontos2 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -568,7 +579,7 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
             if (tabuleiro[i][j] == 2) {
                 pontos2++;
                 if (pontos1 > 0) {
-                    soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+                    soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
                     pontos1 = 0;
                     espacosA = espacosD;
                     espacosD = 0;
@@ -590,10 +601,10 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
             }
         }
         if (pontos1 > 0) {
-            soma1 += somatorio(espacosA, pontos1, espacosD, consec, seq1, seq2, lastSymbol);
+            soma1 += heuristica(espacosA, pontos1, espacosD, consec, seq1, seq2, 1);
         }
         if (pontos2 > 0) {
-            soma1 += somatorio(espacosA, pontos2, espacosD, consec, seq1, seq2, lastSymbol);
+            soma2 += heuristica(espacosA, pontos2, espacosD, consec, seq1, seq2, 2);
         }
         espacosD = 0;
         espacosA = 0;
@@ -605,7 +616,7 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
         consec = 0;
     }
     //printSeqs(seq1, seq2);
-    return heuristica(seq1, seq2);
+    return p1 - p2;
 }
 
 int Pontuacao::algoritmo(int tabuleiro[15][15]) {
@@ -617,7 +628,7 @@ int Pontuacao::somarPontuacao(int tabuleiro[15][15]) {
     return somarH(tabuleiro) + somarV(tabuleiro) + somarDP(tabuleiro) + somarDS(tabuleiro);
 }
 
-int Pontuacao::somatorio(int espacosA, int pontos, int espacosD, int consec, int seq1[5], int seq2[5], int lastSymbol) {
+int Pontuacao::heuristica(int espacosA, int pontos, int espacosD, int consec, int seq1[5], int seq2[5], int jogador) {
     //Aqui vou avaliar a situacao da ultima carreira de pedras e dar-lhes uma pontuacao
     //switchzao
     //printf("Pontos: %i\n", pontos);
@@ -632,38 +643,40 @@ int Pontuacao::somatorio(int espacosA, int pontos, int espacosD, int consec, int
             printf("Jogador 2 WIN\n");
         }
     } else {
-        if (lastSymbol == 1) {
+        if (jogador == 1) {
             if (consec > 0) {
                 seq1[consec - 1]--;
             }
         }
-        if (lastSymbol == 2) {
+        if (jogador == 2) {
             if (consec > 0) {
                 seq2[consec - 1]--;
             }
         }
     }
-    return 0;
-}
-
-int Pontuacao::heuristica(int seq1[5], int seq2[5]) {
     printf("Heuristica\n");
-    int p1 = 0;
-    int p2 = 0;
-    p1 += seq1 [0] * 20;
-    p2 += seq2 [0] * 20;
-    p1 += seq1 [1] * 40;
-    p2 += seq2 [1] * 40;
-    p1 += seq1 [2] * 100;
-    p2 += seq2 [2] * 100;
-    p1 += seq1 [3] * 500;
-    p2 += seq2 [3] * 500;
+    if (jogador == 1) {
+        p1 = 0;
+        p1 += seq1 [0] * 20;
+        p1 += seq1 [1] * 40;
+        p1 += seq1 [2] * 100;
+        p1 += seq1 [3] * 500;
+        p1 += (espacosD + espacosA) * 2;
+    } else {
+        p2 = 0;
+        p2 += seq2 [0] * 20;
+        p2 += seq2 [1] * 40;
+        p2 += seq2 [2] * 100;
+        p2 += seq2 [3] * 500;
+        p2 += (espacosD + espacosA) * 2;
+    }
     return p1 - p2;
+
 }
 
 void Pontuacao::printSeqs(int seq1[5], int seq2[5]) {
     printf("Unicas: %i, Duplas: %i, Triplas: %i, Quadras: %i, Quintas: %i Player1\n", seq1[0], seq1[1], seq1[2], seq1[3], seq1[4]);
-    printf("Unicas: %i, Duplas: %i, Triplas: %i, Quadras: %i, Quintas: %i Player2\n", seq2[0], seq2[1], seq2[2], seq2[3],seq2[4]);
+    printf("Unicas: %i, Duplas: %i, Triplas: %i, Quadras: %i, Quintas: %i Player2\n", seq2[0], seq2[1], seq2[2], seq2[3], seq2[4]);
 }
 
 Pontuacao::Pontuacao(const Pontuacao& orig) {
