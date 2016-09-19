@@ -13,14 +13,11 @@ int Minimax::minimax(Nodo* raiz, int prof, bool isMax, int a, int b){
 	tabuleiro->insert(raiz->getJogada(),raiz->getPlayer());
 
 	if(prof == 0 /*&&raiz->isFinal()*/){
-		printf("aqui deu\n");
 		int pontuacao = raiz->calcularHeuristica();
 		tabuleiro->remove(raiz->getJogada());
-		printf("Pontuacao tabuleiro atual: %i\n", pontuacao);
 		return pontuacao;
 	}
-	
-	printf("Profundidade do algoritmo: %i\n", prof);
+
 	raiz->gerarFilhos();
 
 	if(isMax){
@@ -33,6 +30,7 @@ int Minimax::minimax(Nodo* raiz, int prof, bool isMax, int a, int b){
 				break;
 			}
 		}
+		raiz->setValue(v);
 		tabuleiro->remove(raiz->getJogada());
 		return v;
 	} else {
@@ -45,6 +43,7 @@ int Minimax::minimax(Nodo* raiz, int prof, bool isMax, int a, int b){
 				break;
 			}
 		}
+		raiz->setValue(v);
 		tabuleiro->remove(raiz->getJogada());
 		return v;
 	}

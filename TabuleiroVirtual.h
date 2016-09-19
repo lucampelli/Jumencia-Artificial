@@ -45,9 +45,6 @@ public:
 	}
 
 	int heuristica(){
-		Tela* tela = new Tela();
-		tela->printTabul(tabuleiro);
-		delete(tela);
 		return Pontuacao::somarPontuacao(tabuleiro);
 	}
 
@@ -61,7 +58,6 @@ public:
 	}
 	
 	void update(int tabuleiroNovo[15][15]){
-		Jogador* jogador = Jogador::getInstance();
 		for(int i = 0; i < 15; i++){
 			for(int j = 0; j < 15; j++){
 				tabuleiro[i][j] = tabuleiroNovo[i][j];

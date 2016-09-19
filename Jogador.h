@@ -24,6 +24,7 @@ public:
     virtual ~Jogador();
     void leitura();
     bool escrita(int choice[]);
+	bool escrita();
 	static Jogador* getInstance(){
 		static Jogador* _jogador;
 		if(_jogador == NULL){
@@ -41,10 +42,11 @@ private:
     //lista de jogadas 1:
     std::list<Pedra*> jogadas;
     //Variável que define quem é a vez:    
-    bool jogador1;
+    bool jogadorAI;
     //Entidade da interface gráfica
     Tela* tela;
     estado estadoDeJogo;
+	int ultimaJogada[2];
 };
 
 #endif	/* JOGADOR_H */

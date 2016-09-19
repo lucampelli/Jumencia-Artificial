@@ -22,7 +22,7 @@ Pontuacao::Pontuacao() {
 }
 
 int Pontuacao::somarH(int tabuleiro[15][15]) {
-    printf("Somando as horizontais\n");
+    //printf("Somando as horizontais\n");
     
     p1 = 0;
     p2 = 0;
@@ -129,7 +129,7 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
 }
 
 int Pontuacao::somarV(int tabuleiro[15][15]) {
-    printf("Somando as verticais\n");
+    //printf("Somando as verticais\n");
     
     p1 = 0;
     p2 = 0;
@@ -236,7 +236,7 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
 }
 
 int Pontuacao::somarDP(int tabuleiro[15][15]) {
-    printf("Somando a diagonal principal\n");
+   // printf("Somando a diagonal principal\n");
     p1 = 0;
     p2 = 0;
     
@@ -428,7 +428,7 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
 }
 
 int Pontuacao::somarDS(int tabuleiro[15][15]) {
-    printf("Somando a diagonal secundaria\n");
+    //printf("Somando a diagonal secundaria\n");
     p1 = 0;
     p2 = 0;
     
@@ -654,7 +654,6 @@ int Pontuacao::heuristica(int espacosA, int pontos, int espacosD, int consec, in
             }
         }
     }
-    printf("Heuristica\n");
     if (jogador == 1) {
         p1 = 0;
         p1 += seq1 [0] * 20;

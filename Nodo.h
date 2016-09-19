@@ -26,6 +26,7 @@ public:
 
 }
 
+
 void setValue(int newValue){
 	value = newValue;
 }
@@ -72,7 +73,8 @@ int getValue(){
 
 int calcularHeuristica(){
 	TabuleiroVirtual* tabuleiro = TabuleiroVirtual::getInstance();
-	return tabuleiro->heuristica();
+	value = tabuleiro->heuristica();	
+	return value;
 }
 
 Nodo* getParent(){

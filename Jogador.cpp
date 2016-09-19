@@ -15,8 +15,10 @@
 #include "Minimax.h"
 
 Jogador::Jogador() {
-    jogador1 = true;
+    jogadorAI = false;
     tela = new Tela();
+	ultimaJogada[0] = 7;
+    ultimaJogada[1] = 7;
     estadoDeJogo = JOGANDO;
     leitura();
 }
@@ -24,38 +26,49 @@ Jogador::Jogador() {
 void Jogador::leitura() {
     while (estadoDeJogo == JOGANDO) {
         tela->printTabul(campo);
-        int choice[2];
-        scanf("%i%i", &choice[0], &choice[1]);
-        if (this->escrita(choice)) {
-            if (jogador1) {
-                jogador1 = false;
-            } else {
-                jogador1 = true;
-            }
-        }
+		if(!jogadorAI){
+        	int choice[2];
+        	scanf("%i%i", &choice[0], &choice[1]);
+        	if (this->escrita(choice)) {
+            	jogadorAI = true;
+        	}
+		} else {
+			if(this->escrita()){
+				jogadorAI = false;
+			}
+		}
     }
 
-    printf("O vencedor é o jogador %i", jogador1);
+    printf("O vencedor é o jogador %i", jogadorAI);
 }
 
 bool Jogador::escrita(int choice[]) {
     //system("clear");
 	printf("Campo:");
+
     if (campo[choice[0]][choice[1]] == 0) {
-        if (jogador1) {
-            campo[choice[0]][choice[1]] = 1;
-        } else {
-            campo[choice[0]][choice[1]] = 2;
-        }
-        //jogadas.push_back(new Pedra(choice, jogador1));
-		Nodo* nodo = new Nodo(choice, NULL, jogador1);
-		int heuristica = Minimax::minimax(nodo,2);
-		printf("Heuristica: %i", heuristica);
+        	campo[choice[0]][choice[1]] = 2;
+			ultimaJogada[0] = choice[0];
+			ultimaJogada[1] = choice[1];
+        //jogadas.push_back(new Pedra(choice, jogadorAI));		
         //int pontos = Pontuacao::somarPontuacao(campo);
         //printf("Pontos: %i", pontos);
         return true;
     }
     return false;
+}
+
+bool Jogador::escrita(){
+	TabuleiroVirtual* tab = TabuleiroVirtual::getInstance();
+	tab->update(campo);
+	Nodo* nodo = new Nodo(ultimaJogada, NULL, !jogadorAI);
+	int heuristica = Minimax::minimax(nodo,2);
+	printf("Heuristica: %i", heuristica);
+	int choice[2];
+	choice[0] = nodo->getFilhos().findByValue(heuristica)->getJogada()[0];
+	choice[1] = nodo->getFilhos().findByValue(heuristica)->getJogada()[1];
+	campo[choice[0]][choice[1]] = 1;
+	return true;
 }
 
 Jogador::Jogador(const Jogador& orig) {

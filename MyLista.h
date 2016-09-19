@@ -23,6 +23,7 @@ public:
 		}
 	}
 
+
 	void add(T nodo){
 		unsigned int i = 0;
 		while(lista[i] != NULL && i < SIZE){
@@ -44,6 +45,20 @@ public:
 		} else {
 			return NULL;
 		}
+	}
+
+	T findByValue(int value){
+		if(empty()){
+			return NULL;
+		}
+		for(int i = 0; i < SIZE; i++){
+			if(lista[i] != NULL){
+ 				if(lista[i]->getValue() == value){
+					return lista[i];
+				}
+			}
+		}
+		return NULL;
 	}
 
 	T removeByPos(int i = 0){
