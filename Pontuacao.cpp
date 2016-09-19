@@ -11,8 +11,6 @@
 #include "Pontuacao.h"
 #include "Jogador.h"
 
-#define WIN 100000
-#define LOSE -100000
 
 int p1;
 
@@ -22,12 +20,12 @@ Pontuacao::Pontuacao() {
 }
 
 int Pontuacao::somarH(int tabuleiro[15][15]) {
-    //printf("Somando as horizontais\n");
+
     
     p1 = 0;
     p2 = 0;
 
-    int seq1[] = {0, 0, 0, 0, 0}; //{duplas,triplas,quadras,quintas}
+    int seq1[] = {0, 0, 0, 0, 0}; //{umas, duplas,triplas,quadras,quintas}
     int seq2[] = {0, 0, 0, 0, 0};
     int consec = 0;
 
@@ -124,12 +122,12 @@ int Pontuacao::somarH(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    //printSeqs(seq1, seq2);
+
     return p1 - p2;
 }
 
 int Pontuacao::somarV(int tabuleiro[15][15]) {
-    //printf("Somando as verticais\n");
+
     
     p1 = 0;
     p2 = 0;
@@ -231,16 +229,16 @@ int Pontuacao::somarV(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    //printSeqs(seq1, seq2);
+
     return p1 - p2;
 }
 
 int Pontuacao::somarDP(int tabuleiro[15][15]) {
-   // printf("Somando a diagonal principal\n");
+
     p1 = 0;
     p2 = 0;
     
-    int seq1[] = {0, 0, 0, 0, 0}; //{duplas,triplas,quadras,quintas}
+    int seq1[] = {0, 0, 0, 0, 0}; //{umas, duplas,triplas,quadras,quintas}
     int seq2[] = {0, 0, 0, 0, 0};
     int consec = 0;
 
@@ -423,12 +421,12 @@ int Pontuacao::somarDP(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    //printSeqs(seq1, seq2);
+
     return p1 - p2;
 }
 
 int Pontuacao::somarDS(int tabuleiro[15][15]) {
-    //printf("Somando a diagonal secundaria\n");
+
     p1 = 0;
     p2 = 0;
     
@@ -615,12 +613,8 @@ int Pontuacao::somarDS(int tabuleiro[15][15]) {
         lastSymbol = 0;
         consec = 0;
     }
-    //printSeqs(seq1, seq2);
+
     return p1 - p2;
-}
-
-int Pontuacao::algoritmo(int tabuleiro[15][15]) {
-
 }
 
 int Pontuacao::somarPontuacao(int tabuleiro[15][15]) {
@@ -629,20 +623,9 @@ int Pontuacao::somarPontuacao(int tabuleiro[15][15]) {
 }
 
 int Pontuacao::heuristica(int espacosA, int pontos, int espacosD, int consec, int seq1[5], int seq2[5], int jogador) {
-    //Aqui vou avaliar a situacao da ultima carreira de pedras e dar-lhes uma pontuacao
-    //switchzao
-    //printf("Pontos: %i\n", pontos);
-    //printf("Espacos: %i\n", espacosA + espacosD);
-    //printf("Consecutivos: %i\n", consec);
 
-    if (pontos + espacosD + espacosA >= 5) {
-        if (seq1[4] > 0) {
-            printf("Jogador 1 WIN\n");
-        } else
-            if (seq2[4] > 0) {
-            printf("Jogador 2 WIN\n");
-        }
-    } else {
+
+    if (pontos + espacosD + espacosA < 5){
         if (jogador == 1) {
             if (consec > 0) {
                 seq1[consec - 1]--;
@@ -660,6 +643,7 @@ int Pontuacao::heuristica(int espacosA, int pontos, int espacosD, int consec, in
         p1 += seq1 [1] * 40;
         p1 += seq1 [2] * 100;
         p1 += seq1 [3] * 500;
+		p1 += seq1 [4] * 1500000;
         p1 += (espacosD + espacosA) * 2;
     } else {
         p2 = 0;
@@ -667,15 +651,11 @@ int Pontuacao::heuristica(int espacosA, int pontos, int espacosD, int consec, in
         p2 += seq2 [1] * 40;
         p2 += seq2 [2] * 100;
         p2 += seq2 [3] * 500;
+		p2 += seq2 [4] * 1500000;
         p2 += (espacosD + espacosA) * 2;
     }
     return p1 - p2;
 
-}
-
-void Pontuacao::printSeqs(int seq1[5], int seq2[5]) {
-    printf("Unicas: %i, Duplas: %i, Triplas: %i, Quadras: %i, Quintas: %i Player1\n", seq1[0], seq1[1], seq1[2], seq1[3], seq1[4]);
-    printf("Unicas: %i, Duplas: %i, Triplas: %i, Quadras: %i, Quintas: %i Player2\n", seq2[0], seq2[1], seq2[2], seq2[3], seq2[4]);
 }
 
 Pontuacao::Pontuacao(const Pontuacao& orig) {

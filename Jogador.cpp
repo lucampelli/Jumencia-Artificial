@@ -16,6 +16,7 @@
 
 Jogador::Jogador() {
     jogadorAI = false;
+	AI = false;
     tela = new Tela();
 	ultimaJogada[0] = 7;
     ultimaJogada[1] = 7;
@@ -24,6 +25,19 @@ Jogador::Jogador() {
 }
 
 void Jogador::leitura() {
+
+	printf("Escolha o modo de JOGO: 1 para pvp, 2 para pvAI\n");	
+	int escolha;
+	scanf("%i",&escolha);
+	if(escolha == 2){
+		AI = true;
+		printf("Escolha quem começa, 1 para o jogador, e 2 para a AI\n");
+		scanf("%i",&escolha);
+		if(escolha == 2){
+			jogadorAI = true;
+		}
+	}
+
     while (estadoDeJogo == JOGANDO) {
         tela->printTabul(campo);
 		if(!jogadorAI){
@@ -33,13 +47,30 @@ void Jogador::leitura() {
             	jogadorAI = true;
         	}
 		} else {
-			if(this->escrita()){
-				jogadorAI = false;
+			if(AI){
+				if(this->escrita()){
+					jogadorAI = false;
+				}
+			} else {
+				int choice[2];
+        		scanf("%i%i", &choice[0], &choice[1]);
+        		if (this->escrita(choice)) {
+            		jogadorAI = false;
+        		}
 			}
 		}
+		
+		int result = Pontuacao::somarPontuacao(campo);
+
+		printf("%i", result);
+		printf("%i", estadoDeJogo);
+		if(result >= 1000000 || result <= -1000000){
+			estadoDeJogo = TERMINADO;
+		}
+
     }
 
-    printf("O vencedor é o jogador %i", jogadorAI);
+    printf("\nO vencedor é o jogador %i\n", (int)jogadorAI +1);
 }
 
 bool Jogador::escrita(int choice[]) {
@@ -47,12 +78,14 @@ bool Jogador::escrita(int choice[]) {
 	printf("Campo:");
 
     if (campo[choice[0]][choice[1]] == 0) {
-        	campo[choice[0]][choice[1]] = 2;
+			if(jogadorAI){
+        		campo[choice[0]][choice[1]] = 1;
+			} else {
+				campo[choice[0]][choice[1]] = 2;
+			}
 			ultimaJogada[0] = choice[0];
 			ultimaJogada[1] = choice[1];
-        //jogadas.push_back(new Pedra(choice, jogadorAI));		
-        //int pontos = Pontuacao::somarPontuacao(campo);
-        //printf("Pontos: %i", pontos);
+
         return true;
     }
     return false;

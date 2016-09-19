@@ -47,6 +47,8 @@ private:
     Tela* tela;
     estado estadoDeJogo;
 	int ultimaJogada[2];
+	
+	bool AI;
 };
 
 #endif	/* JOGADOR_H */
