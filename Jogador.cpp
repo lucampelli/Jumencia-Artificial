@@ -71,6 +71,7 @@ void Jogador::leitura() {
     }
 
     printf("\nO vencedor é o jogador %i\n", (int)jogadorAI +1);
+	tela->printTabul(campo);
 }
 
 bool Jogador::escrita(int choice[]) {
